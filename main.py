@@ -1,4 +1,5 @@
 import os
+from random import sample
 import hanlp
 import hanlp.utils
 import hanlp.pretrained
@@ -16,6 +17,7 @@ HanLP = (
     hanlp.pipeline()
     .append(hanlp.utils.rules.split_sentence, output_key="sentences")
     .append(lambda ss: flatten(map(split, ss)))
+    .append(lambda ss: sample(ss, 500) if len(ss) > 500 else ss)
     .append(hanlp.load(hanlp.pretrained.tok.COARSE_ELECTRA_SMALL_ZH), output_key="tok")
     .append(hanlp.load(hanlp.pretrained.pos.CTB9_POS_ELECTRA_SMALL), output_key="pos")
 )
