@@ -34,4 +34,4 @@ def cut():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
-    app.run(host="::", port=port)
+    app.run(host=os.environ.get("HOST", "::"), port=port)
