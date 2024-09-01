@@ -6,8 +6,8 @@ import hanlp.pretrained
 from flask import Flask, request, jsonify
 
 def split(s):
-    for i in range(0, len(s), 500):
-        yield s[i:i+500]
+    for i in range(0, len(s), 50):
+        yield s[i:i+50]
 
 def flatten(xss):
     return [x for xs in xss for x in xs]
@@ -17,7 +17,7 @@ HanLP = (
     hanlp.pipeline()
     .append(hanlp.utils.rules.split_sentence, output_key="sentences")
     .append(lambda ss: flatten(map(split, ss)))
-    .append(lambda ss: sample(ss, 500) if len(ss) > 500 else ss)
+    .append(lambda ss: sample(ss, 250) if len(ss) > 250 else ss)
     .append(hanlp.load(hanlp.pretrained.tok.COARSE_ELECTRA_SMALL_ZH), output_key="tok")
     .append(hanlp.load(hanlp.pretrained.pos.CTB9_POS_ELECTRA_SMALL), output_key="pos")
 )
